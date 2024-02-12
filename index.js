@@ -8,8 +8,9 @@ const port = process.env.PORT || 5000;
 
 const corsOptions = {
   origin: [`${process.env.FRONTEND_BASE_URL}`],
-  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  methods: 'GET, POST, PATCH , DELETE',
   credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
@@ -20,8 +21,8 @@ db.connectToDatabase()
   .then(() => {
     console.log('Database connection established. Setting up routes...');
 
-    const userRoutes = require('./views/animals/routes.js');
-    app.use('/animals', userRoutes);
+    const animalsRoutes = require('./views/animals/routes.js');
+    app.use('/animals', animalsRoutes);
 
     const animalRoutes = require('./views/animal/routes.js');
     app.use('/animal', animalRoutes);

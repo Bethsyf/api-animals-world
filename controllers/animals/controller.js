@@ -44,20 +44,20 @@ const getAnimalById = async (id) => {
 const createAnimal = async (req, res, next) => {
   try {
     console.log(req.body);
-    const userData = req.body;
+    const animalData = req.body;
 
     const requiredFields = ['name', 'origin', 'image', 'diet', 'skills'];
     if (
-      !requiredFields.every((field) => Object.keys(userData).includes(field))
+      !requiredFields.every((field) => Object.keys(animalData).includes(field))
     ) {
-      console.log('Missing required fields:', userData);
+      console.log('Missing required fields:', animalData);
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const result = await db
       .getDatabase()
       .collection('animals')
-      .insertOne(userData);
+      .insertOne(animalData);
 
     console.log('MongoDB Insert Result:', result);
 
@@ -65,19 +65,19 @@ const createAnimal = async (req, res, next) => {
       console.log('Animal created successfully:', result.insertedId);
       return res.json({
         message: 'Animal created successfully',
-        userId: result.insertedId,
+        animalId: result.insertedId,
       });
     } else {
-      console.error('Failed to create user. MongoDB response:', result);
+      console.error('Failed to create animal. MongoDB response:', result);
       return res
         .status(500)
-        .json({ message: 'Failed to create user in the application' });
+        .json({ message: 'Failed to create animal in the application' });
     }
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error('Error creating animal:', error);
     return res
       .status(500)
-      .json({ message: 'Failed to create user due to an unexpected error' });
+      .json({ message: 'Failed to create animal due to an unexpected error' });
   }
 };
 
