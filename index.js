@@ -20,6 +20,12 @@ db.connectToDatabase()
   .then(() => {
     console.log('Database connection established. Setting up routes...');
 
+    const userRoutes = require('./views/animals/routes.js');
+    app.use('/animals', userRoutes);
+
+    const animalRoutes = require('./views/animal/routes.js');
+    app.use('/animal', animalRoutes);
+
     app.get('/', (req, res) => {
       res.send('Welcome to the API animals world');
     });
