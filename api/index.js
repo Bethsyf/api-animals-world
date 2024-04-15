@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./db/db.js');
 const cors = require('cors');
+const router = require('./views/animals/routes.js');
+const router1 = require('./views/animal/routes.js');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,13 +23,11 @@ db.connectToDatabase()
   .then(() => {
     console.log('Database connection established. Setting up routes...');
 
-    const animalsRoutes = require('./views/animals/routes.js');
-    app.use('/animals', animalsRoutes);
+    app.use('/api/animals', router);
 
-    const animalRoutes = require('./views/animal/routes.js');
-    app.use('/animal', animalRoutes);
+    app.use('/api/animal', router1);
 
-    app.get('/', (req, res) => {
+    app.get('/api', (req, res) => {
       res.send('Welcome to the API animals world');
     });
 
